@@ -75,7 +75,7 @@
 }
 
 .rhap_time {
-  color: #333;
+  color: theme(colors.neutral.400);
   font-size: 16px;
   user-select: none;
   -webkit-user-select: none;
@@ -95,19 +95,19 @@
   height: 100%;
   position: absolute;
   z-index: 2;
-  background-color: #868686;
+  background-color: theme(colors.neutral.200);
   border-radius: 2px;
 }
 
 .rhap_progress-bar-show-download {
-  background-color: rgba(221, 221, 221, 0.5);
+  background-color: theme(colors.neutral.600);
 }
 
 .rhap_download-progress {
   height: 100%;
   position: absolute;
   z-index: 1;
-  background-color: #dddddd;
+  background-color: theme(colors.neutral.500);
   border-radius: 2px;
 }
 
@@ -115,13 +115,21 @@
   box-sizing: border-box;
   position: absolute;
   z-index: 3;
+  width: 15px;
+  height: 15px;
+  margin-left: -7.5px;
+  top: -6px;
+  background: theme(colors.neutral.200);
+  border-radius: 50px;
+  box-shadow: rgba(134, 134, 134, 0.5) 0 0 5px;
+  transition: all 0.15s;
+}
+
+.rhap_progress-container:hover .rhap_progress-indicator {
   width: 20px;
   height: 20px;
   margin-left: -10px;
   top: -8px;
-  background: #868686;
-  border-radius: 50px;
-  box-shadow: rgba(134, 134, 134, 0.5) 0 0 5px;
 }
 
 .rhap_controls-section {
@@ -129,6 +137,7 @@
   flex: 1 1 auto;
   justify-content: space-between;
   align-items: center;
+  color: theme(colors.neutral.400);
 }
 
 .rhap_additional-controls {
@@ -154,10 +163,14 @@
 
 .rhap_main-controls-button {
   margin: 0 3px;
-  color: #868686;
   font-size: 35px;
   width: 35px;
   height: 35px;
+  transition: color 0.3s;
+}
+
+.rhap_main-controls-button:hover {
+  color: theme(colors.neutral.50);
 }
 
 .rhap_play-pause-button {
@@ -178,8 +191,12 @@
   font-size: 26px;
   width: 26px;
   height: 26px;
-  color: #868686;
   margin-right: 6px;
+  transition: color 0.3s;
+}
+
+.rhap_volume-button:hover {
+  color: theme(colors.neutral.50);
 }
 
 .rhap_volume-container {
@@ -206,7 +223,7 @@
   position: relative;
   width: 100%;
   height: 4px;
-  background: #dddddd;
+  background: theme(colors.neutral.600);
   border-radius: 2px;
 }
 
@@ -218,7 +235,7 @@
   margin-left: -6px;
   left: 0;
   top: -4px;
-  background: #868686;
+  background: theme(colors.neutral.200);
   opacity: 0.9;
   border-radius: 50px;
   box-shadow: rgba(134, 134, 134, 0.5) 0 0 3px;
@@ -232,7 +249,7 @@
   height: 100%;
   position: absolute;
   z-index: 2;
-  background-color: #868686;
+  background-color: theme(colors.neutral.200);
   border-radius: 2px;
 }
 

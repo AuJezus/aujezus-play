@@ -1,10 +1,10 @@
 import Thumbnail from "../../utils/ytThumbnail";
 import PlaylistListItem from "./PlaylistListItem";
 
-function PlaylistList({ playlist, onSongChange, currentSong }) {
-  function handleSelect(i) {
+function PlaylistList({ playlist, onSongChange, currentSongInfo }) {
+  async function handleSelect(i) {
     document.body.style.backgroundImage = `url(${Thumbnail(
-      playlist[currentSong].url
+      currentSongInfo.url
     )})`;
     onSongChange(i);
   }
@@ -15,7 +15,7 @@ function PlaylistList({ playlist, onSongChange, currentSong }) {
         <PlaylistListItem
           song={song}
           key={song.id}
-          selected={i === currentSong}
+          selected={song.id === currentSongInfo.id}
           onClick={() => handleSelect(i)}
         />
       ))}

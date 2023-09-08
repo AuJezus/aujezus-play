@@ -3,8 +3,7 @@ import "../../styles/audio.css";
 import { useEffect } from "react";
 import Thumbnail from "../../utils/ytThumbnail";
 
-function PlaylistPlayer({ playlist, currentSong }) {
-  const currentSongInfo = playlist[currentSong];
+function PlaylistPlayer({ currentSongInfo, currentSongPlayUrl }) {
   const thumbnailUrl = Thumbnail(currentSongInfo.url);
 
   return (
@@ -14,15 +13,21 @@ function PlaylistPlayer({ playlist, currentSong }) {
         src={thumbnailUrl}
         alt={`${currentSongInfo.title}, cover photo`}
       ></img>
-      <div className="text-neutral-200 mb-32">
-        <span>{currentSongInfo?.title}</span>
-        <span>{currentSongInfo?.authorName}</span>
+      <div className="flex flex-col items-center gap-8 mb-28">
+        <span className="text-neutral-200 font-bold text-xl">
+          {currentSongInfo?.title}
+        </span>
+        <span className="text-neutral-400 font-semibold text-xl">
+          {currentSongInfo?.authorName}
+        </span>
       </div>
 
       <div className="w-[75%]">
         <AudioPlayer
+          src={currentSongPlayUrl}
           showSkipControls={true}
           showJumpControls={false}
+          showFilledVolume={true}
           customAdditionalControls={[
             <svg
               className="fill-neutral-400 hover:fill-neutral-50 transition-colors duration-300"

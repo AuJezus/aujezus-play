@@ -27,4 +27,24 @@ app.get("/api/playlist/:id", async (req, res) => {
   res.json(filteredPlaylist);
 });
 
+app.get("/api/track", async (req, res) => {
+  // Get the 'url' query parameter from the request object
+  const url = req.query.url;
+
+  console.log();
+
+  // Check if the URL parameter is null or empty
+  if (!url) {
+    // URL parameter is null or empty, return an error
+    return res
+      .status(400)
+      .json({ error: "URL parameter is empty or missing." });
+  }
+
+  const stream = await play.stream(url);
+  const playUrl = stream.url;
+  console.log(playUrl);
+  res.json({ playUrl });
+});
+
 ViteExpress.listen(app, 3000, () => console.log("Server is listening..."));

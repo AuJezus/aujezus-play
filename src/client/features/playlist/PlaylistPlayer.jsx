@@ -2,29 +2,53 @@ import AudioPlayer, { RHAP_UI } from "react-h5-audio-player";
 import "../../styles/audio.css";
 import { useEffect } from "react";
 import Thumbnail from "../../utils/ytThumbnail";
+import { useQuery } from "@tanstack/react-query";
+import { getPlaylist } from "../../services/apiPlaylist";
+import { useParams } from "react-router-dom";
+import { usePlaylist } from "../usePlaylist";
+import { getTrack } from "../../services/apiTrack";
 
-function PlaylistPlayer({ currentSongInfo, currentSongPlayUrl }) {
-  const thumbnailUrl = Thumbnail(currentSongInfo.url);
+function PlaylistPlayer({ currentIndex }) {
+  // currentTrack - hqImageUrl, authorName, playUrl
+  // onPlayNext
+  // onPlayPrevious
+  // currentTrack
+  const { id } = useParams();
+
+  const { playlist, isLoading, error } = usePlaylist(id);
+
+  const {
+    data: track,
+    isLoading: isLoadingTrack,
+    error: errorTrack,
+  } = useQuery({
+    enabled: !!playlist?.[currentIndex]?.url,
+    queryKey: ["track", playlist?.[currentIndex]?.url],
+    queryFn: () => getTrack(playlist?.[currentIndex]?.url),
+  });
+
+  if (isLoading || isLoadingTrack) return <p>Loading</p>;
 
   return (
     <div className="flex flex-col items-center justify-center">
       <img
         className="w-96 h-96 object-cover mb-16 vinyl-mask"
-        src={thumbnailUrl}
-        alt={`${currentSongInfo.title}, cover photo`}
+        src={track.hqImgUrl}
+        alt={`${track.title}, cover photo`}
       ></img>
       <div className="flex flex-col items-center gap-8 mb-28">
         <span className="text-neutral-200 font-bold text-xl">
-          {currentSongInfo?.title}
+          {track.title}
         </span>
         <span className="text-neutral-400 font-semibold text-xl">
-          {currentSongInfo?.authorName}
+          {track.authorName}
         </span>
       </div>
 
       <div className="w-[75%]">
         <AudioPlayer
-          src={currentSongPlayUrl}
+          autoPlay
+          src={track.playUrl}
           showSkipControls={true}
           showJumpControls={false}
           showFilledVolume={true}

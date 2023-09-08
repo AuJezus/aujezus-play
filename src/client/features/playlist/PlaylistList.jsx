@@ -1,13 +1,13 @@
+import { useParams } from "react-router-dom";
 import Thumbnail from "../../utils/ytThumbnail";
+import { usePlaylist } from "../usePlaylist";
 import PlaylistListItem from "./PlaylistListItem";
 
-function PlaylistList({ playlist, onSongChange, currentSongInfo }) {
-  async function handleSelect(i) {
-    document.body.style.backgroundImage = `url(${Thumbnail(
-      currentSongInfo.url
-    )})`;
-    onSongChange(i);
-  }
+function PlaylistList({ currentIndex, onSelect }) {
+  const { id } = useParams();
+  const { playlist, isLoading, error } = usePlaylist(id);
+
+  if (isLoading) return <p>Loading</p>;
 
   return (
     <ul className="overflow-y-auto flex-grow-0">
@@ -15,8 +15,8 @@ function PlaylistList({ playlist, onSongChange, currentSongInfo }) {
         <PlaylistListItem
           song={song}
           key={song.id}
-          selected={song.id === currentSongInfo.id}
-          onClick={() => handleSelect(i)}
+          selected={i === currentIndex}
+          onClick={() => onSelect(i)}
         />
       ))}
     </ul>

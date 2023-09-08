@@ -9,6 +9,8 @@
     "build": "vite build"
   },
   "dependencies": {
+    "@tanstack/react-query": "^4.35.0",
+    "@tanstack/react-query-devtools": "^4.35.0",
     "express": "^4.18.2",
     "play-dl": "^1.9.6",
     "react": "^18.2.0",
@@ -19,6 +21,7 @@
     "vite-express": "^0.10.0"
   },
   "devDependencies": {
+    "@tanstack/eslint-plugin-query": "^4.34.1",
     "@types/react": "^18.2.15",
     "@types/react-dom": "^18.2.7",
     "@vitejs/plugin-react": "^4.0.3",

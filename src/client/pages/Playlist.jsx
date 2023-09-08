@@ -1,49 +1,35 @@
 import { useEffect, useState } from "react";
 import PlaylistList from "../features/playlist/PlaylistList";
 import PlaylistPlayer from "../features/playlist/PlaylistPlayer";
+import { usePlaylist } from "../features/usePlaylist";
+import { useParams } from "react-router-dom";
+import Thumbnail from "../utils/ytThumbnail";
 
 function Playlist() {
-  const [playlist, setPlaylist] = useState([]);
-  const [currentSongIndex, setCurrentSongIndex] = useState(0);
-  const [currentSongPlayUrl, setCurrentSongPlayUrl] = useState("");
-  const currentSongInfo = playlist[currentSongIndex] || {};
+  // current index
+  const [currentIndex, setCurrentIndex] = useState(0);
 
-  useEffect(function () {
-    async function fetchPlaylist() {
-      const res = await fetch("/api/playlist/123");
-      const json = await res.json();
-      setPlaylist(json);
+  const { id } = useParams();
+  const { playlist, isLoading, error } = usePlaylist(id);
+
+  useEffect(() => {
+    if (!playlist) return;
+
+    if (playlist[currentIndex]) {
+      document.body.style.backgroundImage = `url('${Thumbnail(
+        playlist[currentIndex].url
+      )}')`;
     }
-    fetchPlaylist();
-  }, []);
+  }, [currentIndex, playlist]);
 
-  useEffect(
-    function () {
-      async function fetchTrackUrl() {
-        const res = await fetch(
-          `/api/track?url=${encodeURIComponent(currentSongInfo.url)}`
-        );
-        const { playUrl } = await res.json();
-        setCurrentSongPlayUrl(playUrl);
-      }
-      if (currentSongInfo.url) fetchTrackUrl();
-    },
-    [currentSongInfo.url]
-  );
+  function handleTrackChange(index) {
+    setCurrentIndex(index);
+  }
 
   return (
     <div className="grid grid-cols-[minmax(350px,_1fr)_3fr] grid-rows-1 h-full">
-      <PlaylistList
-        playlist={playlist}
-        onSongChange={setCurrentSongIndex}
-        currentSongInfo={currentSongInfo}
-      />
-      {playlist.length && (
-        <PlaylistPlayer
-          currentSongPlayUrl={currentSongPlayUrl}
-          currentSongInfo={currentSongInfo}
-        />
-      )}
+      <PlaylistList onSelect={handleTrackChange} currentIndex={currentIndex} />
+      <PlaylistPlayer currentIndex={currentIndex} />
     </div>
   );
 }

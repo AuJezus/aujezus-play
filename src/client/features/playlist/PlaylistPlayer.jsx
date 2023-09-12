@@ -17,6 +17,7 @@ function PlaylistPlayer({ currentIndex }) {
   const { id } = useParams();
   const playerRef = useRef();
   const [volume, setVolume] = useState(1);
+  const [isPlaying, setIsPlaying] = useState(false);
 
   const { playlist, isLoading, error } = usePlaylist(id);
 
@@ -35,7 +36,11 @@ function PlaylistPlayer({ currentIndex }) {
   return (
     <div className="flex flex-col items-center justify-center">
       <img
-        className="w-96 h-96 object-cover mb-16 vinyl-mask"
+        className={`w-96 h-96 object-cover mb-16 vinyl-mask ${
+          isPlaying
+            ? "animate-[spin_10s_linear_infinite_running]"
+            : "animate-[spin_10s_linear_infinite_paused]"
+        }`}
         src={track.hqImgUrl}
         alt={`${track.title}, cover photo`}
       ></img>
@@ -55,6 +60,8 @@ function PlaylistPlayer({ currentIndex }) {
           onVolumeChange={() =>
             setVolume(playerRef.current.audio.current.volume)
           }
+          onPause={() => setIsPlaying(false)}
+          onPlay={() => setIsPlaying(true)}
           autoPlay
           src={track.playUrl}
           showSkipControls={true}

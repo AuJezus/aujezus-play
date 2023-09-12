@@ -1,12 +1,13 @@
 import AudioPlayer, { RHAP_UI } from "react-h5-audio-player";
 import "../../styles/audio.css";
-import { useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
 import Thumbnail from "../../utils/ytThumbnail";
 import { useQuery } from "@tanstack/react-query";
 import { getPlaylist } from "../../services/apiPlaylist";
 import { useParams } from "react-router-dom";
 import { usePlaylist } from "../usePlaylist";
 import { getTrack } from "../../services/apiTrack";
+import Spinner from "../../ui/Spinner";
 
 function PlaylistPlayer({ currentIndex }) {
   // currentTrack - hqImageUrl, authorName, playUrl
@@ -14,6 +15,8 @@ function PlaylistPlayer({ currentIndex }) {
   // onPlayPrevious
   // currentTrack
   const { id } = useParams();
+  const playerRef = useRef();
+  const [volume, setVolume] = useState(1);
 
   const { playlist, isLoading, error } = usePlaylist(id);
 
@@ -27,7 +30,7 @@ function PlaylistPlayer({ currentIndex }) {
     queryFn: () => getTrack(playlist?.[currentIndex]?.url),
   });
 
-  if (isLoading || isLoadingTrack) return <p>Loading</p>;
+  if (isLoading || isLoadingTrack) return <Spinner />;
 
   return (
     <div className="flex flex-col items-center justify-center">
@@ -47,6 +50,11 @@ function PlaylistPlayer({ currentIndex }) {
 
       <div className="w-[75%]">
         <AudioPlayer
+          volume={volume}
+          ref={playerRef}
+          onVolumeChange={() =>
+            setVolume(playerRef.current.audio.current.volume)
+          }
           autoPlay
           src={track.playUrl}
           showSkipControls={true}

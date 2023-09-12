@@ -2,12 +2,13 @@ import { useParams } from "react-router-dom";
 import Thumbnail from "../../utils/ytThumbnail";
 import { usePlaylist } from "../usePlaylist";
 import PlaylistListItem from "./PlaylistListItem";
+import Spinner from "../../ui/Spinner";
 
 function PlaylistList({ currentIndex, onSelect }) {
   const { id } = useParams();
   const { playlist, isLoading, error } = usePlaylist(id);
 
-  if (isLoading) return <p>Loading</p>;
+  if (isLoading) return <Spinner />;
 
   return (
     <ul className="overflow-y-auto flex-grow-0">

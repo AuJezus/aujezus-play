@@ -4,6 +4,7 @@ import PlaylistPlayer from "../features/playlist/PlaylistPlayer";
 import { usePlaylist } from "../features/usePlaylist";
 import { useParams } from "react-router-dom";
 import Thumbnail from "../utils/ytThumbnail";
+import Spinner from "../ui/Spinner";
 
 function Playlist() {
   // current index
@@ -25,6 +26,8 @@ function Playlist() {
   function handleTrackChange(index) {
     setCurrentIndex(index);
   }
+
+  if (isLoading) return <Spinner />;
 
   return (
     <div className="grid grid-cols-[minmax(350px,_1fr)_3fr] grid-rows-1 h-full">

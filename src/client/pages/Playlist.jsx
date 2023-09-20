@@ -23,7 +23,7 @@ function Playlist() {
     }
   }, [currentIndex, playlist]);
 
-  function handleTrackChange(index) {
+  function handleChangeTrack(index) {
     setCurrentIndex(index);
   }
 
@@ -31,8 +31,11 @@ function Playlist() {
 
   return (
     <div className="grid grid-cols-[minmax(350px,_1fr)_3fr] grid-rows-1 h-full">
-      <PlaylistList onSelect={handleTrackChange} currentIndex={currentIndex} />
-      <PlaylistPlayer currentIndex={currentIndex} />
+      <PlaylistList onSelect={handleChangeTrack} currentIndex={currentIndex} />
+      <PlaylistPlayer
+        currentIndex={currentIndex}
+        onChange={handleChangeTrack}
+      />
     </div>
   );
 }

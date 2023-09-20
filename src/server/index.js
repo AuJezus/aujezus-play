@@ -53,17 +53,22 @@ app.get("/api/track", async (req, res) => {
       .json({ error: "URL parameter is empty or missing." });
   }
 
-  const stream = await play.stream(url);
-  const { video_details } = await play.video_info(url);
-  const playUrl = stream.url;
-  // id title authorName hqImgUrl
-  res.json({
-    id: stream.id,
-    title: video_details.title,
-    authorName: video_details.channel.name,
-    hqImgUrl: Thumbnail(url),
-    playUrl,
-  });
+  try {
+    const stream = await play.stream(url);
+    const { video_details } = await play.video_info(url);
+    const playUrl = stream.url;
+    // id title authorName hqImgUrl
+    res.json({
+      id: stream.id,
+      title: video_details.title,
+      authorName: video_details.channel.name,
+      hqImgUrl: Thumbnail(url),
+      playUrl,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(429).json(error);
+  }
 });
 
 ViteExpress.listen(app, 3000, () => console.log("Server is listening..."));

@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { getPlaylist } from "../services/apiPlaylist";
+import { getPlaylist } from "../../services/apiPlaylist";
 
 export function usePlaylist(id) {
   const {

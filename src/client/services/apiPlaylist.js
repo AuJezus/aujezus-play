@@ -1,8 +1,19 @@
 export async function getPlaylist(id) {
-  if (!id) throw new Error("Playlist id is empty");
+  try {
+    if (!id) {
+      throw new Error("Playlist ID is empty");
+    }
 
-  const res = await fetch(`/api/playlist/${id}`);
-  const playlist = await res.json();
+    const res = await fetch(`/api/playlist/${encodeURIComponent(id)}`);
 
-  return playlist;
+    if (!res.ok) {
+      throw new Error("Bad request");
+    }
+
+    const playlist = await res.json();
+    return playlist;
+  } catch (error) {
+    console.error("Error in getPlaylist:", error);
+    throw error;
+  }
 }

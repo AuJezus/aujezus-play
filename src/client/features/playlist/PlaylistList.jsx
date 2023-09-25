@@ -1,12 +1,14 @@
 import { useParams } from "react-router-dom";
-import Thumbnail from "../../utils/ytThumbnail";
-import { usePlaylist } from "../usePlaylist";
 import PlaylistListItem from "./PlaylistListItem";
 import Spinner from "../../ui/Spinner";
+import { usePlaylist } from "./usePlaylist";
+import Error from "../../pages/Error";
 
 function PlaylistList({ currentIndex, onSelect }) {
   const { id } = useParams();
   const { playlist, isLoading, error } = usePlaylist(id);
+
+  if (error) return <Error errorMsg={error} />;
 
   if (isLoading) return <Spinner />;
 

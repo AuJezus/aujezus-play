@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
 import PlaylistList from "../features/playlist/PlaylistList";
 import PlaylistPlayer from "../features/playlist/PlaylistPlayer";
-import { usePlaylist } from "../features/usePlaylist";
+import { usePlaylist } from "../features/playlist/usePlaylist";
 import { useParams } from "react-router-dom";
-import Thumbnail from "../utils/ytThumbnail";
+import Thumbnail from "../../utils/ytThumbnail";
 import Spinner from "../ui/Spinner";
+import Error from "./Error";
 
 function Playlist() {
   // current index
@@ -26,6 +27,8 @@ function Playlist() {
   function handleChangeTrack(index) {
     setCurrentIndex(index);
   }
+
+  if (error) return <Error errorMsg={error} />;
 
   if (isLoading) return <Spinner />;
 

@@ -1,13 +1,12 @@
-import AudioPlayer, { RHAP_UI } from "react-h5-audio-player";
+import AudioPlayer from "react-h5-audio-player";
 import "../../styles/audio.css";
-import { useEffect, useRef, useState } from "react";
-import Thumbnail from "../../utils/ytThumbnail";
 import { useQuery } from "@tanstack/react-query";
-import { getPlaylist } from "../../services/apiPlaylist";
 import { useParams } from "react-router-dom";
-import { usePlaylist } from "../usePlaylist";
 import { getTrack } from "../../services/apiTrack";
 import Spinner from "../../ui/Spinner";
+import { usePlaylist } from "./usePlaylist";
+import { useRef, useState } from "react";
+import Error from "../../pages/Error";
 
 function getRandomIndex(playlist) {
   const randomIndex = Math.floor(Math.random() * playlist.length);
@@ -15,10 +14,6 @@ function getRandomIndex(playlist) {
 }
 
 function PlaylistPlayer({ currentIndex, onChange }) {
-  // currentTrack - hqImageUrl, authorName, playUrl
-  // onPlayNext
-  // onPlayPrevious
-  // currentTrack
   const { id } = useParams();
   const playerRef = useRef();
   const [volume, setVolume] = useState(1);
@@ -65,7 +60,8 @@ function PlaylistPlayer({ currentIndex, onChange }) {
     onChange(indexToPlay);
   }
 
-  // if (isLoading || isLoadingTrack) return;
+  if (error) return <Error errorMsg={error} />;
+  if (errorTrack) return <Error errorMsg={errorTrack} />;
 
   return (
     <div className="flex flex-col items-center justify-center">

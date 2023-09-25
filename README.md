@@ -1,3 +1,5 @@
-# AuJezus Play - Music Player App
+# AuJezus Play - Youtube PLaylist Player
 
-Stream and search music from Youtube, Soundcloud, Deezer, Spotify for free!
+Play youtube playlists, using this simple player!
+
+Just a quick project to get my feet wet. Planning to expand the functionality in the future :).

@@ -21,8 +21,6 @@ const app = express();
 app.get("/api/playlist/:query", async (req, res) => {
   const { query } = req.params;
 
-  console.log(query);
-
   try {
     if (!query) {
       return res.status(400).json({ error: "Invalid query" });
